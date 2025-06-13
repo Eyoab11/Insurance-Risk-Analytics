@@ -7,9 +7,12 @@ env/
 
 # Jupyter Notebook
 .ipynb_checkpoints/
+# Ignore all files in the data directory...
+/data/*
 
-# Data - We will use DVC for this later, but for now, let's ignore it in Git
-data/
+# ... but DO NOT ignore the .dvc pointer files and the .gitignore file itself
+!/data/*.dvc
+!/data/.gitignore
 
 # IDE specific
 .vscode/
