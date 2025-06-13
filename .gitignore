@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.pyc
+.env
+venv/
+env/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# Data - We will use DVC for this later, but for now, let's ignore it in Git
+data/
+
+# IDE specific
+.vscode/
+.idea/
