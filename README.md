@@ -89,7 +89,6 @@ plots/
 ```bash
 dvc init
 dvc remote add -d localstorage ../dvc-storage
-
 ```
 
 # DVC Workflow Summary
@@ -102,7 +101,6 @@ dvc add data/insurance_data.csv
 git add data/insurance_data.csv.dvc
 git commit -m "feat: Track dataset with DVC"
 dvc push
-
 ```
 
 ## Reproducible Workflow
@@ -132,7 +130,8 @@ dvc push
 - **DVC ensures reproducibility** for future analysis
 - **Upcoming**: Hypothesis testing & predictive modeling
 
-## Task 3: Hypothesis Testing of Key Risk Drivers  
+# Task 3: Hypothesis Testing of Key Risk Drivers  
+
 
 ## Objective  
 The goal of this task was to statistically validate or reject key hypotheses about the drivers of insurance risk and profitability. Using insights from the Exploratory Data Analysis (EDA), we formed null hypotheses and used appropriate statistical tests to determine if observed differences in the data were statistically significant or merely due to random chance. This provides a rigorous, data-backed foundation for strategic business decisions.  
@@ -209,7 +208,7 @@ The following tests were used with a significance level (alpha) of **α = 0.05**
 ---  
 
 ## Overall Conclusion  
-The hypothesis testing phase has successfully translated visual insights from the EDA into statistically significant findings. We have confirmed that **geography (both province and zip code) is a critical driver of risk**, while **gender is not**. These data-backed conclusions provide a solid foundation for refining ACIS's pricing and marketing strategies.  
+The hypothesis testing phase has successfully translated visual insights from the EDA into statistically significant findings. We have confirmed that **geography (both province and zip code) is a critical driver of risk**, while **gender is not**. These data-backed conclusions provide a solid foundation for refining ACIS's pricing and marketing strategy.
 
 # Task 4: Predictive Modeling for Claim Severity
 
@@ -264,3 +263,5 @@ This indicates a significant **data leakage** problem. The model is primarily us
 1.  **Best Performing Model:** In this initial run, Linear Regression performed the best.
 2.  **Actionable Insight:** The modeling process has uncovered a critical data leakage issue. The current model's reliance on premium-related features makes it unsuitable for a real-world pricing engine.
 3.  **Recommendation for Next Iteration:** The modeling process must be repeated after **removing the leaky features** (`CalculatedPremiumPerTerm`, `TotalPremium`, `SumInsured`) from the feature set. This will force the model to learn from genuine risk drivers like `VehicleAge` and `kilowatts`, providing more valuable and actionable insights for ACIS.
+=======
+
