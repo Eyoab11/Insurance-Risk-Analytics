@@ -132,6 +132,7 @@ dvc push
 
 # Task 3: Hypothesis Testing of Key Risk Drivers  
 
+
 ## Objective  
 The goal of this task was to statistically validate or reject key hypotheses about the drivers of insurance risk and profitability. Using insights from the Exploratory Data Analysis (EDA), we formed null hypotheses and used appropriate statistical tests to determine if observed differences in the data were statistically significant or merely due to random chance. This provides a rigorous, data-backed foundation for strategic business decisions.  
 
@@ -207,4 +208,60 @@ The following tests were used with a significance level (alpha) of **α = 0.05**
 ---  
 
 ## Overall Conclusion  
-The hypothesis testing phase has successfully translated visual insights from the EDA into statistically significant findings. We have confirmed that **geography (both province and zip code) is a critical driver of risk**, while **gender is not**. These data-backed conclusions provide a solid foundation for refining ACIS's pricing and marketing strategies.  
+The hypothesis testing phase has successfully translated visual insights from the EDA into statistically significant findings. We have confirmed that **geography (both province and zip code) is a critical driver of risk**, while **gender is not**. These data-backed conclusions provide a solid foundation for refining ACIS's pricing and marketing strategy.
+
+# Task 4: Predictive Modeling for Claim Severity
+
+### **Objective**
+
+The goal of this task was to build and evaluate machine learning models to predict the total claim amount (`TotalClaims`) for policies that have experienced a claim. The insights from the best-performing model will be used to understand key risk drivers and inform pricing strategy.
+
+### **Methodology**
+
+The modeling process followed these key steps:
+
+1.  **Data Preparation:** Loaded the pre-processed `modeling_data.csv` file. The dataset was then filtered to include only policies with claims (`TotalClaims > 0`), resulting in a modeling set of 2,788 records.
+2.  **Train-Test Split:** The data was split into an 80% training set and a 20% testing set to ensure a robust evaluation on unseen data.
+3.  **Model Training:** Three different regression models were trained:
+    *   Linear Regression
+    *   Random Forest Regressor
+    *   XGBoost Regressor
+4.  **Model Evaluation:** Models were evaluated based on two metrics:
+    *   **Root Mean Squared Error (RMSE):** The average prediction error in ZAR. Lower is better.
+    *   **R-squared (R²):** The proportion of variance in the target variable explained by the model. Higher is better.
+5.  **Model Interpretability:** The SHAP (SHapley Additive exPlanations) library was used to analyze the feature importance and impact of the best-performing model.
+
+### **Model Performance Results**
+
+The models were evaluated on the test set, yielding the following results:
+
+| Model               | RMSE (ZAR)   | R-squared |
+| ------------------- | ------------ | --------- |
+| **Linear Regression** | **34,201.98**| **0.2726**  |
+| Random Forest       | 34,747.77    | 0.2492    |
+| XGBoost             | 38,991.24    | 0.0547    |
+
+**Conclusion:** Contrary to common expectations, the **Linear Regression** model was the best performer in this iteration, with the lowest error and highest explanatory power.
+
+### **Feature Importance & Interpretation**
+
+SHAP analysis was performed to understand the model's predictions.
+
+![SHAP Bar Plot](./plots/shap_summary_bar.png)
+
+#### **Critical Finding: Data Leakage**
+
+The analysis revealed that the top 3 most influential features are all related to the premium and insured sum:
+1.  `CalculatedPremiumPerTerm`
+2.  `TotalPremium`
+3.  `SumInsured`
+
+This indicates a significant **data leakage** problem. The model is primarily using information about the premium (which is itself calculated based on risk) to predict the claim amount. While this leads to a statistically "correct" model, it is not practically useful for setting premiums for new clients, as it doesn't rely on inherent risk factors.
+
+### **Conclusion & Next Steps**
+
+1.  **Best Performing Model:** In this initial run, Linear Regression performed the best.
+2.  **Actionable Insight:** The modeling process has uncovered a critical data leakage issue. The current model's reliance on premium-related features makes it unsuitable for a real-world pricing engine.
+3.  **Recommendation for Next Iteration:** The modeling process must be repeated after **removing the leaky features** (`CalculatedPremiumPerTerm`, `TotalPremium`, `SumInsured`) from the feature set. This will force the model to learn from genuine risk drivers like `VehicleAge` and `kilowatts`, providing more valuable and actionable insights for ACIS.
+=======
+
