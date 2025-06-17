@@ -90,6 +90,8 @@ plots/
 dvc init
 dvc remote add -d localstorage ../dvc-storage
 
+```
+
 # DVC Workflow Summary
 
 ## Tracked Data
@@ -100,6 +102,8 @@ dvc add data/insurance_data.csv
 git add data/insurance_data.csv.dvc
 git commit -m "feat: Track dataset with DVC"
 dvc push
+
+```
 
 ## Reproducible Workflow
 
